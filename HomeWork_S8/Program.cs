@@ -59,9 +59,9 @@ internal class Program
       return arra;
     }
     //Создание двухмерного массива с случайными числами
-    int[,] CreateMass2d(int strok, int stolbetsov, int min, int max)
+    int[,] CreateMass2d(int strok, int stolbtsov, int min, int max)
     {
-      int[,] arra = new int[stolbetsov, strok];
+      int[,] arra = new int[stolbtsov, strok];
       for (int i = 0; i < arra.GetLength(0); i++)
         for (int j = 0; j < arra.GetLength(1); j++)
           arra[i, j] = new Random().Next(min, max);
@@ -222,6 +222,45 @@ internal class Program
       return C;
     }
 
+    //Нахождения меньшего числа в матрице
+    (int,int) MinItemPosition (int [,] arra)
+    {
+      int min = arra[0,0];
+      int position1=0, position2=0;
+      for (int i = 0; i < arra.GetLength(0); i++)
+        for (int j = 0; j < arra.GetLength(1); j++)
+          if (arra[i,j] < min) {min = arra[i,j]; position1 = i; position2 = j;}       
+      return (position1,position2);
+    }
+
+    //Удаление строки
+    int[,] DelStrok(int [,]arra, int strok)
+    { 
+      int x=0;
+      int[,] temp = new int[arra.GetLength(0)-1, arra.GetLength(1)];
+      for (int i = 0; i < arra.GetLength(0); i++)
+        if (i !=strok) 
+        {
+        for (int j = 0; j < arra.GetLength(1); j++)
+          temp[x,j] = arra[i,j];
+        x++;
+        }
+      return temp;
+    }
+    //удаления столбца
+    int[,] DelStolbets(int [,]arra, int Stolbets)
+    { 
+      int[,] temp = new int[arra.GetLength(0), arra.GetLength(1)-1];
+      for (int i = 0; i < arra.GetLength(0); i++)
+        {
+        int x=0;
+        for (int j = 0; j < arra.GetLength(1); j++)
+        if (j !=Stolbets) 
+        { temp[i,x] = arra[i,j]; x++;}
+        }      
+      return temp;
+    }
+
     int otvet1 = 0;
     string? otvet2;
     do
@@ -341,6 +380,26 @@ internal class Program
           }
         else
           System.Console.WriteLine("Умножение не возможно! Количество столбцов первой матрицы не равно количеству строк второй матрицы.");      
+      }
+      
+      //3. В двумерном массиве целых чисел. Удалить строку и столбец, на пересечении которых расположен наименьший элемент.
+      if (otvet1 == 3)
+      {        
+        int n3 = Proverca_chisla("Введите количетсво строк двухмерного массива: ");
+        int m3 = Proverca_chisla("Введите количетсво столбцов двухмерного массива: ");
+        int min3 = Proverca_chisla("Введите минимальное значения массива: ");
+        int max3 = Proverca_chisla("Введите максимальное значения массива: ");
+        int[,] arra3 = CreateMass2d(n3, m3, min3, max3);
+        System.Console.WriteLine("Получился следующая матрица: ");
+        PrintMass2d(arra3);
+
+        (int position1, int position2)  = MinItemPosition(arra3);
+        arra3 = DelStrok(arra3,position1);
+        arra3 = DelStolbets(arra3,position2);
+        
+        System.Console.WriteLine("");
+        System.Console.WriteLine("Получился следующая матрица после удаления строки и столбца на пересечении: ");
+        PrintMass2d(arra3);
       }
 
       //Конец тела задач    
