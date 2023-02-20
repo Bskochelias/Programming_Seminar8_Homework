@@ -58,6 +58,7 @@ internal class Program
         arra[i] = new Random().Next(min, max);
       return arra;
     }
+
     //Создание двухмерного массива с случайными числами
     int[,] CreateMass2d(int strok, int stolbtsov, int min, int max)
     {
@@ -67,7 +68,6 @@ internal class Program
           arra[i, j] = new Random().Next(min, max);
       return arra;
     }
-
     //Создание трехмерного массива с случайными числами
     //если Bool переменная равна true то переменные в цикле не повторяются
     int[,,] CreateMass3d(int strok, int stolbtsov, int glubina, int min, int max, bool repeatingNumbers)
@@ -132,13 +132,14 @@ internal class Program
         System.Console.WriteLine();
       }
     }
-    //Печать цифр заданных значений
+    //Печать количество найденых цифр
     void Print_int(int[] count, int min, int max, double percent)
     {
       for (int i = min; i < max; i++)
-        if (count[i] != 0) { Console.WriteLine($"{i} встречается {count[i]} раз. Частота {(count[i] / percent) * 100} %"); }
+        if (count[i] != 0) 
+        System.Console.WriteLine($"{i} встречается {count[i]} раз. Частота {(count[i] / percent) * 100} %");
     }
-    //Печать символов
+    //Печать количество найденных символов
     void Print_String(int[] count, double percent)
     {
       Print_int(count, 0, 10, percent);
@@ -183,6 +184,38 @@ internal class Program
             case 42: Console.WriteLine($"Другие символы встречаются {count[i]} раз. Частота {(count[i] / percent) * 100} %"); break;
           }
         }
+    }
+    //Печать треугольник Флойда
+    void PrintFloydTreagle(int row)
+    {int step=1; 
+      for (int i = 1; i < row+1; i++)
+        {
+        for (int j = 1; j < i+1; j++)
+          {
+            System.Console.Write(step + " ");
+            step++;
+          }
+        System.Console.WriteLine("");      
+        } 
+    }
+    //Печать Треугольник Паскаля
+    void PrintPasscalTreagle(int row)
+    {for (int i = 0; i < row; i++)
+      {
+        int step = 1;
+        for (int j = 0; j < row - i; j++)
+        {
+            System.Console.Write("   ");
+        }
+
+        for (int x = 0; x <= i; x++)
+        {
+            System.Console.Write("   {0:D} ", step); // так и не понял что за штука
+            step = step * (i - x) / (x + 1);
+        }
+        System.Console.WriteLine();
+        System.Console.WriteLine();
+      }
     }
 
     //Поиск заданных чисел в одномерном массиве
@@ -350,14 +383,14 @@ internal class Program
           Console.WriteLine("2. Двухмерный.");
           Console.WriteLine("3. Символы.");
           o1 = Proverca_chisla("Ваш ответ: ");
-          if (o1 > 3 ^ answer1 < 1)
+          if (o1 > 3 ^ o1 < 1)
           {
             Console.WriteLine("Такой задачи тут нету!");
             Console.Write("Нажмите <Enter> для повторго ввода... ");
             while (Console.ReadKey().Key != ConsoleKey.Enter) { }
           }
 
-        } while (o1 > 3 ^ answer1 < 1);
+        } while (o1 > 3 ^ o1 < 1);
         Console.Clear();
 
         if (o1 == 1)
@@ -460,6 +493,30 @@ internal class Program
         int[,,] arra4 = CreateMass3d(n4, m4, l4, 10, 99, false);
         System.Console.WriteLine("Получилась следующая матрица: ");
         PrintMass3d(arra4);
+      }
+
+      //5. Показать треугольник Паскаля *Сделать вывод в виде равнобедренного треугольника.
+      if (answer1 == 5)
+      {
+        int o5 = 0;
+        do
+        {
+          System.Console.WriteLine("Какой треугольник выхоть?");
+          System.Console.WriteLine("1. Треугольник Флойда.");
+          System.Console.WriteLine("2. Треугольник Паскаля.");
+          o5 = Proverca_chisla("Ваш ответ: ");
+          if (o5 > 2 ^ o5 < 1)
+          {
+            System.Console.WriteLine("Не досуптимый ответ!");
+            System.Console.Write("Нажмите <Enter> для повторго ввода... ");
+            while (Console.ReadKey().Key != ConsoleKey.Enter) { }
+          }
+        } while (o5 > 2 ^ o5 < 1);
+        Console.Clear();
+
+        int chislo = Proverca_chisla("Введите количетсво столбцов треугольника: ");
+        if(o5==1) PrintFloydTreagle(chislo);
+        else {PrintPasscalTreagle(chislo);}
       }
 
       //Конец тела задач    
