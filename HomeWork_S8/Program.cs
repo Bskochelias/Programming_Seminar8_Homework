@@ -68,6 +68,35 @@ internal class Program
       return arra;
     }
 
+    //Создание трехмерного массива с случайными числами
+    int[,,] CreateMass3d(int strok, int stolbtsov, int glubina, int min, int max,bool type) // если Bool переменная равна true то переменные в цикле не повторяются
+    { int[,,] arra = new int[glubina,stolbtsov, strok];
+      for (int i = 0; i < arra.GetLength(0); i++)
+        for (int j = 0; j < arra.GetLength(1); j++)
+          for (int l = 0; l < arra.GetLength(2); l++)
+           if (type)
+            { bool con=false,sikl=false;
+              do
+              { con=false;sikl=false;
+                arra[i, j, l] = new Random().Next(min, max);
+                for (int p1 = 0; p1 < arra.GetLength(0); p1++)
+                  {
+                  for (int p2 = 0; p2 < arra.GetLength(1); p2++)
+                    {
+                    for (int p3 = 0; p3 < arra.GetLength(2); p3++)
+                      if (i!=p1 || j!=p2 || l!=p3)
+                      if (arra[i,j,l]==arra[p1,p2,p3]) {con=true;sikl=true;break;}
+                    if (sikl)break;
+                    }
+                  if (sikl)break;
+                  }  
+              } while(con);
+            }         
+           else
+            arra[i, j, l] = new Random().Next(min, max);                  
+      return arra;
+    }
+
     //Печать одномерного массива
     void PrintMass1d(int[] arra)
     {
@@ -85,7 +114,21 @@ internal class Program
         Console.WriteLine();
       }
     }
-    //Печать цифр заданных сзначений
+    //Печать двухмерного массива
+    void PrintMass3d(int[,,] arra)
+    {
+      for (int i = 0; i < arra.GetLength(0); i++)
+      {
+        for (int j = 0; j < arra.GetLength(1); j++)
+          {
+          for (int l = 0; l < arra.GetLength(2); l++)
+            System.Console.Write($"{arra[i, j, l]} ");
+          System.Console.WriteLine();
+          }
+        System.Console.WriteLine();
+      }
+    }
+    //Печать цифр заданных значений
     void Print_int(int[] count, int min, int max, double percent)
     {
       for (int i = min; i < max; i++)
@@ -390,7 +433,7 @@ internal class Program
         int min3 = Proverca_chisla("Введите минимальное значения массива: ");
         int max3 = Proverca_chisla("Введите максимальное значения массива: ");
         int[,] arra3 = CreateMass2d(n3, m3, min3, max3);
-        System.Console.WriteLine("Получился следующая матрица: ");
+        System.Console.WriteLine("Получилась следующая матрица: ");
         PrintMass2d(arra3);
 
         (int position1, int position2)  = MinItemPosition(arra3);
@@ -398,8 +441,21 @@ internal class Program
         arra3 = DelStolbets(arra3,position2);
         
         System.Console.WriteLine("");
-        System.Console.WriteLine("Получился следующая матрица после удаления строки и столбца на пересечении: ");
+        System.Console.WriteLine("Получилась следующая матрица после удаления строки и столбца на пересечении: ");
         PrintMass2d(arra3);
+      }
+
+      //4. Сформировать трехмерный массив не повторяющимися двузначными числами показать его построчно на экран выводя индексы соответствующего элемента.
+      if (otvet1 == 4)
+      {        
+        int n4 = Proverca_chisla("Введите ширину трехмерного массива: ");
+        int m4 = Proverca_chisla("Введите высоту трехмерного массива: ");
+        int l4 = Proverca_chisla("Введите глубину трехмерного массива: ");
+        //int min4 = Proverca_chisla("Введите минимальное значения массива: ");
+        //int max4 = Proverca_chisla("Введите максимальное значения массива: ");
+        int[,,] arra4 = CreateMass3d(n4, m4, l4, 10, 99, true);
+        System.Console.WriteLine("Получилась следующая матрица: ");
+        PrintMass3d(arra4);
       }
 
       //Конец тела задач    
